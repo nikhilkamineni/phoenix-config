@@ -109,8 +109,17 @@ const windowMaximize = Key.on('f', ['ctrl', 'shift'], () => {
   }
 });
 
-// TODO:
+
 /* TOGGLE KITTY */
+const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
+  let kitty = App.get('kitty')
+
+  if (kitty) {
+    kitty.isActive() ? kitty.hide() : kitty.focus()
+  } else {
+    App.launch('kitty')
+  }
+})
 
 /* Log focused app name to logs               */
 /* To see logs run this command in terminal:  */
