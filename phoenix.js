@@ -87,25 +87,23 @@ const windowBottomRight = Key.on('c', ['ctrl', 'shift'], () => {
 
 
 /* TOGGLE MAXIMIZED WINDOW SIZE */
-let = prevWindowPosition = {};
+let = prevWindowPosition = null;
 
 const windowMaximize = Key.on('f', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
   if (window) {
-    // Check if window is already maximized
+    // Restore previous window size if already maximized
     if (
       screen.width === window.frame().width &&
       screen.height === window.frame().height
     ) {
-      // Restore previous window size and position
-      window.setSize(prevWindowPosition.size);
-      window.setTopLeft(prevWindowPosition.topLeft);
+      window.setFrame(prevWindowPosition);
     }
-    // Maximize window
+    // Maximize window and store previous window size
     else {
-      prevWindowPosition = { topLeft: window.topLeft(), size: window.size() };
+      prevWindowPosition = window.frame();
       window.maximize();
     }
   }
