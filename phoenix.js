@@ -170,6 +170,8 @@ const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
   } else {
     App.launch('kitty')
   }
+
+  // TODO: Fix for toggling when in fullscreen mode
 })
 
 /* Log focused app name to logs               */
