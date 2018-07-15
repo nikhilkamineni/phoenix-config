@@ -1,3 +1,5 @@
+const globalModifier = ['alt', 'shift'];
+
 /* Helper functions */
 function setWindowSize(window, width, height) {
   window.setSize({
@@ -13,9 +15,9 @@ function setWindowPosition(window, x, y) {
   });
 }
 
-/* FOCUSED WINDOW SIZE AND POSITION */
+/* WINDOW SIZE AND POSITION */
 // Center
-const windowCenter = Key.on('s', ['ctrl', 'shift'], () => {
+const windowCenter = Key.on('s', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -30,7 +32,7 @@ const windowCenter = Key.on('s', ['ctrl', 'shift'], () => {
 });
 
 // Top Left
-const windowTopLeft = Key.on('q', ['ctrl', 'shift'], () => {
+const windowTopLeft = Key.on('q', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -40,8 +42,32 @@ const windowTopLeft = Key.on('q', ['ctrl', 'shift'], () => {
   }
 });
 
+// Left Half
+const windowLeftHalf = Key.on('a', globalModifier, () => {
+  let screen = Screen.main().flippedVisibleFrame();
+  let window = Window.focused();
+  
+  if (window) {
+    setWindowSize(window, screen.width / 2, screen.height)
+    setWindowPosition(window, screen.x, screen.y)
+  }
+  // TODO: cycle through thirds
+})
+
+// Right Half
+const windowRightHalf = Key.on('d', globalModifier, () => {
+  let screen = Screen.main().flippedVisibleFrame();
+  let window = Window.focused();
+  
+  if (window) {
+    setWindowSize(window, screen.width / 2, screen.height)
+    setWindowPosition(window, screen.width / 2, screen.y)
+  }
+  // TODO: cycle through thirds
+})
+
 // Bottom Left
-const windowBottomLeft = Key.on('z', ['ctrl', 'shift'], () => {
+const windowBottomLeft = Key.on('z', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -56,7 +82,7 @@ const windowBottomLeft = Key.on('z', ['ctrl', 'shift'], () => {
 });
 
 // Top Right
-const windowTopRight = Key.on('e', ['ctrl', 'shift'], () => {
+const windowTopRight = Key.on('e', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -71,7 +97,7 @@ const windowTopRight = Key.on('e', ['ctrl', 'shift'], () => {
 });
 
 // Bottom Right
-const windowBottomRight = Key.on('c', ['ctrl', 'shift'], () => {
+const windowBottomRight = Key.on('c', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -89,7 +115,7 @@ const windowBottomRight = Key.on('c', ['ctrl', 'shift'], () => {
 /* TOGGLE MAXIMIZED WINDOW SIZE */
 let = prevWindowPosition = null;
 
-const windowMaximize = Key.on('f', ['ctrl', 'shift'], () => {
+const windowMaximize = Key.on('f', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -110,8 +136,9 @@ const windowMaximize = Key.on('f', ['ctrl', 'shift'], () => {
 });
 
 
+
 /* TOGGLE KITTY */
-const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
+const toggleKitty = Key.on('k', globalModifier, () => {
   let kitty = App.get('kitty')
 
   if (kitty) {
@@ -124,7 +151,7 @@ const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
 /* Log focused app name to logs               */
 /* To see logs run this command in terminal:  */
 /*      `log stream --process Phoenix`        */
-Key.on('g', ['ctrl', 'shift'], () => {
+Key.on('g', globalModifier, () => {
   let app = App.focused();
   Phoenix.log(app.name());
 });
