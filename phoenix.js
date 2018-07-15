@@ -138,7 +138,7 @@ const windowMaximize = Key.on('f', globalModifier, () => {
 
 
 /* TOGGLE KITTY */
-const toggleKitty = Key.on('k', globalModifier, () => {
+const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
   let kitty = App.get('kitty')
 
   if (kitty) {
