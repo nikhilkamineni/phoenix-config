@@ -15,7 +15,7 @@ function setWindowPosition(window, x, y) {
 
 /* FOCUSED WINDOW SIZE AND POSITION */
 // Center
-Key.on('s', ['ctrl', 'shift'], function() {
+const windowCenter = Key.on('s', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -30,7 +30,7 @@ Key.on('s', ['ctrl', 'shift'], function() {
 });
 
 // Top Left
-Key.on('q', ['ctrl', 'shift'], function() {
+const windowTopLeft = Key.on('q', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -41,7 +41,7 @@ Key.on('q', ['ctrl', 'shift'], function() {
 });
 
 // Bottom Left
-Key.on('z', ['ctrl', 'shift'], function() {
+const windowBottomLeft = Key.on('z', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -56,7 +56,7 @@ Key.on('z', ['ctrl', 'shift'], function() {
 });
 
 // Top Right
-Key.on('e', ['ctrl', 'shift'], function() {
+const windowTopRight = Key.on('e', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -71,7 +71,7 @@ Key.on('e', ['ctrl', 'shift'], function() {
 });
 
 // Bottom Right
-Key.on('c', ['ctrl', 'shift'], function() {
+const windowBottomRight = Key.on('c', ['ctrl', 'shift'], () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
@@ -85,17 +85,38 @@ Key.on('c', ['ctrl', 'shift'], function() {
   }
 });
 
-// Maximize Window Size
-Key.on('f', ['ctrl', 'shift'], () => {
+
+/* TOGGLE MAXIMIZED WINDOW SIZE */
+let = prevWindowPosition = {};
+
+const windowMaximize = Key.on('f', ['ctrl', 'shift'], () => {
+  let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
-  if (window) window.maximize();
+  if (window) {
+    // Check if window is already maximized
+    if (
+      screen.width === window.frame().width &&
+      screen.height === window.frame().height
+    ) {
+      // Restore previous window size and position
+      window.setSize(prevWindowPosition.size);
+      window.setTopLeft(prevWindowPosition.topLeft);
+    }
+    // Maximize window
+    else {
+      prevWindowPosition = { topLeft: window.topLeft(), size: window.size() };
+      window.maximize();
+    }
+  }
 });
 
+// TODO:
+/* TOGGLE KITTY */
 
 /* Log focused app name to logs               */
 /* To see logs run this command in terminal:  */
-/*      `log stream -- process Phonex`        */
+/*      `log stream --process Phoenix`        */
 Key.on('g', ['ctrl', 'shift'], () => {
   let app = App.focused();
   Phoenix.log(app.name());
