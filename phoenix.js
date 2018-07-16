@@ -47,24 +47,24 @@ const windowLeftHalf = Key.on('a', globalModifier, () => {
   if (window) {
     if (window.size().height === screen.height && 
         window.size().width === screen.width / 2 && 
-        window.topLeft().x === 0 && window.topLeft().y === MENU_BAR_HEIGHT) {
+        window.topLeft().x === 0) {
           window.setFrame({
             width: screen.width * (2 / 3),
             height: screen.height,
             x: 0,
-            y: 0
+            y: 0 + MENU_BAR_HEIGHT
           })
     } 
 
     // If window size is already 2/3 of screen set to 1/3
     else if (window.size().height === screen.height && 
              window.size().width === screen.width * (2 / 3) &&
-             window.topLeft().x === 0 && window.topLeft().y === MENU_BAR_HEIGHT) {
+             window.topLeft().x === 0) {
                 window.setFrame({
                   width: screen.width * (1 / 3),
                   height: screen.height,
                   x: 0,
-                  y: 0
+                  y: 0 + MENU_BAR_HEIGHT
                 })
     }
     // Otherwise set window size to 1/2 of screen
@@ -72,8 +72,8 @@ const windowLeftHalf = Key.on('a', globalModifier, () => {
       window.setFrame({
         width: screen.width / 2,
         height: screen.height,
-        x: screen.x,
-        y: screen.y
+        x: 0,
+        y: 0 + MENU_BAR_HEIGHT
       })
     }
   }
@@ -93,7 +93,7 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
             width: screen.width * (2 / 3),
             height: screen.height,
             x: screen.width * (1 / 3),
-            y: screen.y
+            y: 0 + MENU_BAR_HEIGHT
           })
     } 
     // If window size is already 2/3 of screen set to 1/3
@@ -104,7 +104,7 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
                 width: screen.width * (1 / 3),
                 height: screen.height,
                 x: screen.width * (2 / 3),
-                y: screen.y
+                y: 0 + MENU_BAR_HEIGHT
               })
     }
     // Otherwise set window size to 1/2 of screen
@@ -113,7 +113,7 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
         width: screen.width / 2,
         height: screen.height,
         x: screen.width / 2,
-        y: 0
+        y: 0 + MENU_BAR_HEIGHT
       })
     }
   }
