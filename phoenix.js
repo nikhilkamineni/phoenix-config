@@ -75,6 +75,30 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
   // TODO: cycle through thirds
 })
 
+// Bottom Half
+const windowBottomHalf = Key.on('x', globalModifier, () => {
+  let screen = Screen.main().flippedVisibleFrame();
+  let window = Window.focused();
+  
+  if (window) {
+    setWindowPosition(window, screen.x, screen.y + (screen.height / 2))
+    setWindowSize(window, screen.width, screen.height / 2)
+  }
+  // TODO: cycle through thirds
+})
+
+// Top Half
+const windowTopHalf = Key.on('w', globalModifier, () => {
+  let screen = Screen.main().flippedVisibleFrame();
+  let window = Window.focused();
+  
+  if (window) {
+    setWindowPosition(window, screen.x, screen.y)
+    setWindowSize(window, screen.width, screen.height / 2)
+  }
+  // TODO: cycle through thirds
+})
+
 // Bottom Left
 const windowBottomLeft = Key.on('z', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
@@ -155,6 +179,8 @@ const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
   } else {
     App.launch('kitty')
   }
+
+  // TODO: Fix for toggling when in fullscreen mode
 })
 
 /* Log focused app name to logs               */
