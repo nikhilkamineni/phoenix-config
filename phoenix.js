@@ -49,17 +49,25 @@ const windowLeftHalf = Key.on('a', globalModifier, () => {
   let window = Window.focused();
   
   if (window) {
-    setWindowPosition(window, screen.x, screen.y)
-    if (window.size().height === screen.height && window.size().width === screen.width / 2) {
-      setWindowSize(window, screen.width * (2 / 3), screen.height)
+    // If windowsize is already 1/2 of screen set to 2/3
+    if (window.size().height === screen.height && 
+        window.size().width === screen.width / 2 && 
+        window.topLeft().x === 0) {
+          setWindowPosition(window, screen.x, screen.y)
+          setWindowSize(window, screen.width * (2 / 3), screen.height)
     } 
-    else if (window.size().height === screen.height && window.size().width === screen.width * (2 / 3)) {
-      setWindowSize(window, screen.width * (1 / 3), screen.height)
+    // If window size is already 2/3 of screen set to 1/3
+    else if (window.size().height === screen.height && 
+             window.size().width === screen.width * (2 / 3) &&
+             window.topLeft().x === 0) {
+              setWindowPosition(window, screen.x, screen.y)
+              setWindowSize(window, screen.width * (1 / 3), screen.height)
     }
+    // Otherwise set window size to 1/2 of screen
     else {
+      setWindowPosition(window, screen.x, screen.y)
       setWindowSize(window, screen.width / 2, screen.height)
     }
-
   }
 })
 
@@ -69,10 +77,26 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
   let window = Window.focused();
   
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height)
-    setWindowPosition(window, screen.width / 2, screen.y)
+    // If windowsize is already 1/2 of screen set to 2/3
+    if (window.size().height === screen.height && 
+        window.size().width === screen.width / 2 && 
+        window.topLeft().x === screen.width / 2) {
+          setWindowPosition(window, screen.width * (1 / 3), screen.y)
+          setWindowSize(window, screen.width * (2 / 3), screen.height)
+    } 
+    // If window size is already 2/3 of screen set to 1/3
+    else if (window.size().height === screen.height && 
+             window.size().width === screen.width * (2 / 3) &&
+             window.topLeft().x === screen.width * (1 / 3)) {
+      setWindowPosition(window, screen.width * (2 / 3), screen.y)
+              setWindowSize(window, screen.width * (1 / 3), screen.height)
+    }
+    // Otherwise set window size to 1/2 of screen
+    else {
+      setWindowPosition(window, screen.width / 2, screen.y)
+      setWindowSize(window, screen.width / 2, screen.height)
+    }
   }
-  // TODO: cycle through thirds
 })
 
 // Bottom Half
