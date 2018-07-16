@@ -1,34 +1,24 @@
 const globalModifier = ['alt', 'shift'];
 
-/* Helper functions */
-function setWindowSize(window, width, height) {
-  window.setSize({
-    width: width,
-    height: height
-  });
-}
-
-function setWindowPosition(window, x, y) {
-  window.setTopLeft({
-    x: x,
-    y: y
-  });
-}
+const screenFrame = Screen.main().frame()
+const screenVisibleFrame = Screen.main().visibleFrame()
+const MENU_BAR_HEIGHT = screenFrame.height - screenVisibleFrame.height
 
 
 /* WINDOW SIZE AND POSITION */
 // Center
 const windowCenter = Key.on('s', globalModifier, () => {
+  Phoenix.log(MENU_BAR_HEIGHT)
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
 
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height / 2);
-    setWindowPosition(
-      window,
-      screen.x + screen.width / 4,
-      screen.y + screen.height / 4
-    );
+    window.setFrame({
+      width: screen.width / 2,
+      height: screen.height / 2,
+      x: screen.width / 4,
+      y: screen.height / 4
+    })
   }
 });
 
@@ -38,35 +28,53 @@ const windowTopLeft = Key.on('q', globalModifier, () => {
   let window = Window.focused();
 
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height / 2);
-    setWindowPosition(window, screen.x, screen.y);
+    window.setFrame({
+      width: screen.width / 2,
+      height: screen.height / 2,
+      x: 0,
+      y: 0
+    })
   }
 });
+
 
 // Left Half
 const windowLeftHalf = Key.on('a', globalModifier, () => {
   let screen = Screen.main().flippedVisibleFrame();
   let window = Window.focused();
+  // let { width, height, x, y } = window.frame()
   
   if (window) {
-    // If windowsize is already 1/2 of screen set to 2/3
     if (window.size().height === screen.height && 
         window.size().width === screen.width / 2 && 
-        window.topLeft().x === 0) {
-          setWindowPosition(window, screen.x, screen.y)
-          setWindowSize(window, screen.width * (2 / 3), screen.height)
+        window.topLeft().x === 0 && window.topLeft().y === MENU_BAR_HEIGHT) {
+          window.setFrame({
+            width: screen.width * (2 / 3),
+            height: screen.height,
+            x: 0,
+            y: 0
+          })
     } 
+
     // If window size is already 2/3 of screen set to 1/3
     else if (window.size().height === screen.height && 
              window.size().width === screen.width * (2 / 3) &&
-             window.topLeft().x === 0) {
-              setWindowPosition(window, screen.x, screen.y)
-              setWindowSize(window, screen.width * (1 / 3), screen.height)
+             window.topLeft().x === 0 && window.topLeft().y === MENU_BAR_HEIGHT) {
+                window.setFrame({
+                  width: screen.width * (1 / 3),
+                  height: screen.height,
+                  x: 0,
+                  y: 0
+                })
     }
     // Otherwise set window size to 1/2 of screen
     else {
-      setWindowPosition(window, screen.x, screen.y)
-      setWindowSize(window, screen.width / 2, screen.height)
+      window.setFrame({
+        width: screen.width / 2,
+        height: screen.height,
+        x: screen.x,
+        y: screen.y
+      })
     }
   }
 })
@@ -81,20 +89,32 @@ const windowRightHalf = Key.on('d', globalModifier, () => {
     if (window.size().height === screen.height && 
         window.size().width === screen.width / 2 && 
         window.topLeft().x === screen.width / 2) {
-          setWindowPosition(window, screen.width * (1 / 3), screen.y)
-          setWindowSize(window, screen.width * (2 / 3), screen.height)
+          window.setFrame({
+            width: screen.width * (2 / 3),
+            height: screen.height,
+            x: screen.width * (1 / 3),
+            y: screen.y
+          })
     } 
     // If window size is already 2/3 of screen set to 1/3
     else if (window.size().height === screen.height && 
              window.size().width === screen.width * (2 / 3) &&
              window.topLeft().x === screen.width * (1 / 3)) {
-      setWindowPosition(window, screen.width * (2 / 3), screen.y)
-              setWindowSize(window, screen.width * (1 / 3), screen.height)
+              window.setFrame({
+                width: screen.width * (1 / 3),
+                height: screen.height,
+                x: screen.width * (2 / 3),
+                y: screen.y
+              })
     }
     // Otherwise set window size to 1/2 of screen
     else {
-      setWindowPosition(window, screen.width / 2, screen.y)
-      setWindowSize(window, screen.width / 2, screen.height)
+      window.setFrame({
+        width: screen.width / 2,
+        height: screen.height,
+        x: screen.width / 2,
+        y: 0
+      })
     }
   }
 })
@@ -105,10 +125,14 @@ const windowBottomHalf = Key.on('x', globalModifier, () => {
   let window = Window.focused();
   
   if (window) {
-    setWindowPosition(window, screen.x, screen.y + (screen.height / 2))
-    setWindowSize(window, screen.width, screen.height / 2)
+    // TODO: cycle through thirds
+    window.setFrame({
+      width: screen.width,
+      height: screen.height / 2,
+      x: 0,
+      y: screen.height / 2 + MENU_BAR_HEIGHT
+    })
   }
-  // TODO: cycle through thirds
 })
 
 // Top Half
@@ -117,10 +141,14 @@ const windowTopHalf = Key.on('w', globalModifier, () => {
   let window = Window.focused();
   
   if (window) {
-    setWindowPosition(window, screen.x, screen.y)
-    setWindowSize(window, screen.width, screen.height / 2)
+    // TODO: cycle through thirds
+    window.setFrame({
+      width: screen.width,
+      height: screen.height / 2,
+      x: screen.x,
+      y: screen.y
+    })
   }
-  // TODO: cycle through thirds
 })
 
 // Bottom Left
@@ -129,12 +157,12 @@ const windowBottomLeft = Key.on('z', globalModifier, () => {
   let window = Window.focused();
 
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height / 2);
-    setWindowPosition(
-      window,
-      screen.x,
-      screen.y + screen.height - window.frame().height
-    );
+    window.setFrame({
+      width: screen.width / 2,
+      height: screen.height / 2,
+      x: 0,
+      y: screen.height / 2 + MENU_BAR_HEIGHT
+    })
   }
 });
 
@@ -144,12 +172,12 @@ const windowTopRight = Key.on('e', globalModifier, () => {
   let window = Window.focused();
 
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height / 2);
-    setWindowPosition(
-      window,
-      screen.x + screen.width - window.frame().width,
-      screen.y
-    );
+    window.setFrame({
+      width: screen.width / 2,
+      height: screen.height / 2,
+      x: screen.width - window.frame().width,
+      y: 0
+    })
   }
 });
 
@@ -159,12 +187,12 @@ const windowBottomRight = Key.on('c', globalModifier, () => {
   let window = Window.focused();
 
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height / 2);
-    setWindowPosition(
-      window,
-      screen.x + screen.width - window.frame().width,
-      screen.y + screen.height - window.frame().height
-    );
+    window.setFrame({
+      width: screen.width / 2,
+      height: screen.height / 2,
+      x: screen.width / 2,
+      y: screen.height / 2 + MENU_BAR_HEIGHT
+    })
   }
 });
 
