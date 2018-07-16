@@ -15,6 +15,7 @@ function setWindowPosition(window, x, y) {
   });
 }
 
+
 /* WINDOW SIZE AND POSITION */
 // Center
 const windowCenter = Key.on('s', globalModifier, () => {
@@ -48,10 +49,18 @@ const windowLeftHalf = Key.on('a', globalModifier, () => {
   let window = Window.focused();
   
   if (window) {
-    setWindowSize(window, screen.width / 2, screen.height)
     setWindowPosition(window, screen.x, screen.y)
+    if (window.size().height === screen.height && window.size().width === screen.width / 2) {
+      setWindowSize(window, screen.width * (2 / 3), screen.height)
+    } 
+    else if (window.size().height === screen.height && window.size().width === screen.width * (2 / 3)) {
+      setWindowSize(window, screen.width * (1 / 3), screen.height)
+    }
+    else {
+      setWindowSize(window, screen.width / 2, screen.height)
+    }
+
   }
-  // TODO: cycle through thirds
 })
 
 // Right Half
