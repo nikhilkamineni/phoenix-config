@@ -221,19 +221,22 @@ const windowMaximize = Key.on('f', globalModifier, () => {
 });
 
 
+/* TOGGLE OR LAUNCH APP HELPER FUNCTION*/
+const toggleApp = (appName) => {
+  const app = App.get(appName)
+  if (app) {
+    app.isActive() ? app.hide() : app.focus()
+  } else {
+    App.launch(appName)
+  }
+}
 
 /* TOGGLE KITTY */
-const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => {
-  let kitty = App.get('kitty')
+const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => toggleApp('kitty'))
 
-  if (kitty) {
-    kitty.isActive() ? kitty.hide() : kitty.focus()
-  } else {
-    App.launch('kitty')
-  }
+/* TOGGLE CHROME */
+const toggleChrome = Key.on('c', ['ctrl', 'cmd'], () => toggleApp('Google Chrome'))
 
-  // TODO: Fix for toggling when in fullscreen mode
-})
 
 /* Log focused app name to logs               */
 /* To see logs run this command in terminal:  */
