@@ -237,6 +237,14 @@ const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => toggleApp('kitty'))
 /* TOGGLE CHROME */
 const toggleChrome = Key.on('c', ['ctrl', 'cmd'], () => toggleApp('Google Chrome'))
 
+/* TOGGLE VSCode */
+const toggleVSCode = Key.on('v', ['ctrl', 'cmd'], () => {
+  if (!App.get('Code')) {
+    App.launch('Visual Studio Code');
+  } else {
+    toggleApp('Code');
+  }
+})
 
 /* Log focused app name to logs               */
 /* To see logs run this command in terminal:  */
