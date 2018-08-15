@@ -237,13 +237,13 @@ const toggleKitty = Key.on('k', ['ctrl', 'cmd'], () => toggleApp('kitty'))
 /* TOGGLE CHROME */
 const toggleChrome = Key.on('c', ['ctrl', 'cmd'], () => toggleApp('Google Chrome'))
 
+/* TOGGLE SAFARI */
+const toggleSafari = Key.on('s', ['ctrl', 'cmd'], () => toggleApp('Safari'))
+
 /* TOGGLE VSCode */
+// Need to use 'Visual Studio Code' to launch and 'Code' for toggling
 const toggleVSCode = Key.on('v', ['ctrl', 'cmd'], () => {
-  if (!App.get('Code')) {
-    App.launch('Visual Studio Code');
-  } else {
-    toggleApp('Code');
-  }
+  App.get('Code') ? toggleApp('Code') : App.launch('Visual Studio Code');
 })
 
 /* Log focused app name to logs               */
